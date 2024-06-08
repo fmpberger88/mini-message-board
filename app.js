@@ -1,16 +1,48 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const { engine } = require('express-handlebars');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 
-var app = express();
+const app = express();
+
+// Connect to MongoDB
+mongoose.connect('mongodb://localhost:27017/mini-message-board', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log('Connected to MongoDB');
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+app.engine('hbs', engine({
+  extname: 'hbs',
+  defaultLayout: 'layout',  // Update this line to use layout.hbs
+  layoutsDir: path.join(__dirname, 'views/'),  // Ensure layouts directory is correct
+  helpers: {
+    formatDate: function (date) {
+      return new Intl.DateTimeFormat('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      }).format(date);
+    }
+  }
+}));
 app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
