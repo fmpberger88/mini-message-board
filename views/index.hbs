@@ -1,2 +1,39 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<main class="container">
+    <h1>{{title}}</h1>
+    <p>Welcome to {{title}}</p>
+
+    <ul>
+        {{#each messages}}
+            <li>
+                <strong class="user">{{username}}</strong>"{{text}}"<br>
+                <small>Added on: {{formatDate added}}</small>
+            </li>
+        {{/each}}
+    </ul>
+    <h2>Add a News Message</h2>
+    <form action="/new" method="post">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="text">Message:</label>
+            <textarea id="text" name="text"></textarea>
+        </div>
+        <button type="submit">Add Message</button>
+    </form>
+</main>
+
+{{#if errors}}
+    <ul>
+        {{# each errors}}
+            <li>{{msg}}</li>
+        {{/each}}
+    </ul>
+{{/if}}
+
+
+
+
+
+
