@@ -13,15 +13,16 @@
         </div>
         <button type="submit">Add Message</button>
     </form>
-
-    <ul>
-        {{#each messages}}
-            <li>
-                <strong class="user">{{username}}</strong>"{{text}}"<br>
-                <small>{{formatDate added}}</small>
-            </li>
-        {{/each}}
-    </ul>
+    <div class="messages">
+        <ul>
+            {{#each messages}}
+                <li>
+                    <strong class="user">{{username}}</strong>"{{text}}"<br>
+                    <small>{{formatDate added}}</small>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
 
     {{#if errors}}
         <ul>
