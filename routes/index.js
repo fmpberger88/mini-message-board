@@ -5,14 +5,14 @@ const Message = require('../models/messages');
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-    const messages = Message.find({});
-    if (err) {
-        console.error(err);
-    } else {
-        res.render('index', { title: 'Message Board', messages: messages });
+router.get('/', async (req, res, next) => {
+    try {
+        const messages = await Message.find({});
+        res.render('index', { title: "Message Board", messages: messages });
+    } catch(err) {
+        next(err);
     }
-});
+})
 
 // New message
 router.post('/new', [
@@ -33,14 +33,14 @@ router.post('/new', [
         return res.render('index', {
             title: 'Mini Message Board',
             messages: messages,
-            errors: errors.array()
+            err: errors.array()
         });
     }
 
     const { username, text } = req.body;
     const message = new Message({ username, text });
     await message.save();
-    res.redircet('/')
+    res.redirect('/')
     }
 )
 
