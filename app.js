@@ -6,13 +6,16 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const helmet = require('helmet')
 const { engine } = require('express-handlebars');
+require('dotenv').config();
+
+const mongoUrl = process.env.MONGO_URL;
 
 const indexRouter = require('./routes/index');
 
 const app = express();
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/mini-message-board')
+mongoose.connect(mongoUrl)
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Failed to connect to MongoDB', err));
 
