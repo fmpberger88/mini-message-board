@@ -7,7 +7,7 @@ const Message = require('../models/messages');
 /* GET home page. */
 router.get('/', async (req, res, next) => {
     try {
-        const messages = await Message.find({});
+        const messages = await Message.find({}).sort({ added: -1 }).exec();
         res.render('index', { title: "Message Board", messages: messages });
     } catch(err) {
         next(err);
