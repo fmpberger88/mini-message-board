@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { body, validationResult } = require('express-validator');
 
 const messageSchema = new mongoose.Schema({
     text: {
